@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Time Left</title>
+</head>
+<body>
+    <h1 id="dayPercent">0.00%</h1>
+    <p>till 12am</p>
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+    <script type="text/javascript">
+    let dayTarget = new Date();
+    let msPerDay = 24*60*60*1000;
+    dayTarget.setDate(dayTarget.getDate() + 1);
+    dayTarget.setHours(0);
+    dayTarget.setMinutes(0);
+    dayTarget.setSeconds(0);
+    dayTarget.setMilliseconds(0);
+
+    setInterval(function() {
+        let msDelta = dayTarget.getTime() - (new Date()).getTime();
+        let text = parseFloat(msDelta / msPerDay * 100).toFixed(3) + "%";
+        $(document).attr("title", text + ' till 12am');
+        $('#dayPercent').text(text);
+    }, 400);
+
+    </script>
+    <style type="text/css">
+    * {
+        text-align: center;
+    }
+    </style>
+</body>
+</html>
