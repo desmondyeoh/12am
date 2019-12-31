@@ -100,7 +100,7 @@
         setInterval(function() {
             let msDelta = DAY_TARGET.getTime() - (new Date()).getTime();
             let text = parseFloat(msDelta / MS_PER_DAY * 100).toFixed(3);
-            if (text < 32) {
+            if (text < 0) {
                 DAY_TARGET = createDayTarget();
             }
             updateProgressBar(100-text);
