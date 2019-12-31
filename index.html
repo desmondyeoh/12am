@@ -18,7 +18,7 @@
     <style type="text/css">
     * {
         text-align: center;
-        font-family: "B612", sans-serif;
+        font-family: "B612";
     }
     h1 {
         margin-top: 1em;
@@ -29,6 +29,21 @@
         color: #444;
         margin: 5px 0 10px;
     }
+    #progressStatus { 
+      width: 50vw; 
+      display: inline-block;
+      text-align: center;
+      background-color: black; /* #ddd; */
+    } 
+      
+    #progressBar { 
+      width: 1%; 
+      height: 8px; 
+      background-color: lightgray; /* #4CAF50; */
+      text-align: center; 
+      line-height: 32px; 
+      color: black; 
+    } 
     footer {
         font-size: 0.8em;
         color: #444;
@@ -44,6 +59,9 @@
     <main>
         <h1 id="dayPercent">0.00%</h1>
         <p style="margin-top: 0.2em;">till 12am</p>
+        <div id="progressStatus"> 
+            <div id="progressBar"></div> 
+        </div> 
     </main>
     <footer>
         Wanna hire a programmer? <a href="mailto:desmondyeoh11@gmail.com">(Email author)</a><br/>
@@ -60,21 +78,29 @@
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
   crossorigin="anonymous"></script>
     <script type="text/javascript">
-    let dayTarget = new Date();
-    let msPerDay = 24*60*60*1000;
-    dayTarget.setDate(dayTarget.getDate() + 1);
-    dayTarget.setHours(0);
-    dayTarget.setMinutes(0);
-    dayTarget.setSeconds(0);
-    dayTarget.setMilliseconds(0);
+    $(document).ready(function() {
+        function updateProgressBar(widthPercent) { 
+            var element = document.getElementById("progressBar");    
+            element.style.width = widthPercent + '%';
+        }
 
-    setInterval(function() {
-        let msDelta = dayTarget.getTime() - (new Date()).getTime();
-        let text = parseFloat(msDelta / msPerDay * 100).toFixed(3) + "%";
-        $(document).attr("title", text + ' till 12am');
-        $('#dayPercent').text(text);
-    }, 400);
+        let dayTarget = new Date();
+        let msPerDay = 24*60*60*1000;
+        dayTarget.setDate(dayTarget.getDate() + 1);
+        dayTarget.setHours(0);
+        dayTarget.setMinutes(0);
+        dayTarget.setSeconds(0);
+        dayTarget.setMilliseconds(0);
 
+        setInterval(function() {
+            let msDelta = dayTarget.getTime() - (new Date()).getTime();
+            let text = parseFloat(msDelta / msPerDay * 100).toFixed(3);
+            updateProgressBar(100-text);
+            window.document.title = text + '% till 12am'
+            $('#dayPercent').text(text + '%');
+        }, 400);
+
+    });
     </script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
