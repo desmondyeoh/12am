@@ -79,22 +79,30 @@
   crossorigin="anonymous"></script>
     <script type="text/javascript">
     $(document).ready(function() {
+        function createDayTarget() {
+            dayTarget = new Date();
+            dayTarget.setDate(dayTarget.getDate() + 1);
+            dayTarget.setHours(0);
+            dayTarget.setMinutes(0);
+            dayTarget.setSeconds(0);
+            dayTarget.setMilliseconds(0);
+            return dayTarget;
+        }
         function updateProgressBar(widthPercent) { 
             var element = document.getElementById("progressBar");    
             element.style.width = widthPercent + '%';
         }
 
-        let dayTarget = new Date();
-        let msPerDay = 24*60*60*1000;
-        dayTarget.setDate(dayTarget.getDate() + 1);
-        dayTarget.setHours(0);
-        dayTarget.setMinutes(0);
-        dayTarget.setSeconds(0);
-        dayTarget.setMilliseconds(0);
+        // Global Variables
+        let DAY_TARGET = createDayTarget();
+        let MS_PER_DAY = 24*60*60*1000;
 
         setInterval(function() {
-            let msDelta = dayTarget.getTime() - (new Date()).getTime();
-            let text = parseFloat(msDelta / msPerDay * 100).toFixed(3);
+            let msDelta = DAY_TARGET.getTime() - (new Date()).getTime();
+            let text = parseFloat(msDelta / MS_PER_DAY * 100).toFixed(3);
+            if (text < 32) {
+                DAY_TARGET = createDayTarget();
+            }
             updateProgressBar(100-text);
             window.document.title = text + '% till 12am'
             $('#dayPercent').text(text + '%');
